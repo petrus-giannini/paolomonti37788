@@ -332,42 +332,17 @@
   // ---------- Drawing ----------
   var userLabelEl = document.getElementById('user-label');
 
-  // Satellite pictogram: central bus + two solar panels, orthogonal to the bus-panel axis.
-  // Drawn in local units on a 24x24 grid centered at (12,12), matching the toolbar icon.
+  // Satellite marker: rendered as a "$" glyph, oriented along the satellite's
+  // direction of travel (same convention as the previous pictogram icon).
   function drawSatelliteIcon(x, y, angleRad, sizePx, color) {
-    var s = sizePx / 24;
     ctx.save();
     ctx.translate(x, y);
     ctx.rotate(angleRad);
-    ctx.strokeStyle = color;
-    ctx.lineWidth = Math.max(1, 1.5 * (sizePx / 22));
-    ctx.lineCap = 'round';
-    ctx.lineJoin = 'round';
-
-    function line(x1, y1, x2, y2) {
-      ctx.beginPath();
-      ctx.moveTo((x1 - 12) * s, (y1 - 12) * s);
-      ctx.lineTo((x2 - 12) * s, (y2 - 12) * s);
-      ctx.stroke();
-    }
-    function rrect(x0, y0, w, h, r) {
-      var rx = (x0 - 12) * s, ry = (y0 - 12) * s, rw = w * s, rh = h * s, rr = (r || 0) * s;
-      ctx.beginPath();
-      if (ctx.roundRect) ctx.roundRect(rx, ry, rw, rh, rr);
-      else ctx.rect(rx, ry, rw, rh);
-      ctx.stroke();
-    }
-
-    rrect(9.3, 9.3, 5.4, 5.4, 0.7);       // body
-    line(9.3, 12, 5.6, 12);               // left boom
-    line(14.7, 12, 18.4, 12);             // right boom
-    rrect(1.3, 8.4, 4.3, 7.2, 0.5);       // left panel
-    rrect(18.4, 8.4, 4.3, 7.2, 0.5);      // right panel
-    line(1.3, 10.8, 5.6, 10.8);           // left panel grid
-    line(1.3, 13.2, 5.6, 13.2);
-    line(18.4, 10.8, 22.7, 10.8);         // right panel grid
-    line(18.4, 13.2, 22.7, 13.2);
-
+    ctx.fillStyle = color;
+    ctx.font = '700 ' + Math.round(sizePx) + 'px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('$', 0, 0);
     ctx.restore();
   }
 
